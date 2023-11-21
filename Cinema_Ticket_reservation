@@ -1,0 +1,67 @@
+int snackChoice;
+                            scanf("%d", &snackChoice);
+                            if (snackChoice < 1 || snackChoice > MAX_SNACKS) {
+                                printf("Invalid snack selection. Please choose a valid number.\n");
+                                seats[row - 1][seat - 1] = 0; // Reset the seat status
+                                break;
+                            } else {
+                                strcpy(selectedSnack, snacks[snackChoice - 1]);
+                            }
+
+                            reservations[reservationCount].numTickets = numTickets;
+                            reservations[reservationCount].totalCost = numTickets * TICKET_PRICE;
+                            strcpy(reservations[reservationCount].snack, selectedSnack);
+                            reservations[reservationCount].row = row;
+                            reservations[reservationCount].seat = seat;
+                            reservationCount++;
+
+                            if (i == 0) {
+                                //display the location for the first person
+                                printf("Reserved %d seat(s) in Row %d for %s at %s with %s successfully!\n",
+                                       numTickets, row, movies[selectedMovie - 1], selectedLocation, selectedSnack);
+                            } else {
+                                //he rest, don't display location
+                                printf("Reserved %d seat(s) in Row %d for %s with %s successfully!\n",
+                                       numTickets, row, movies[selectedMovie - 1], selectedSnack);
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            case 4:
+                displayReservations();
+                break;
+            case 5: {
+                displayLocations();
+                break;
+            }
+            case 6: {
+                displaySnacks();
+                break;
+            }
+            case 7: {
+                if (reservationCount == 0) {
+                    printf("You don't have any reservations. Please reserve seats first.\n");
+                } else {
+                    int paymentSuccess = processPayment();
+                    if (paymentSuccess) {
+                        // The payment was successful, and the seats are reserved.
+                        // You can optionally send a confirmation email, generate tickets, etc.
+                        // Reset the reservationCount to allow new reservations.
+                        reservationCount = 0;
+                        initializeSeats();
+                    }
+                }
+                break;
+            }
+            case 8:
+                printf("Thank you. Exiting the program.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please enter a valid option.\n");
+        }
+    }
+
+    return 0;
+}
